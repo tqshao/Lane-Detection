@@ -1,1 +1,6 @@
 # Lane-Detection
+This lane detection program takes an video as input, and output an video in which the lanes are highlighted. 
+## Algorithm
+Since all lanes are in white and yellow, frames are transformed into HSV representation so that colors except white and yellow can be filtered out even in bad lighting condition. was used for noise removal. Then, we remove noise with Gaussian smoothing method and used canny edge detection method with appropriate threshold to find feature points that representing the lanes. 
+Given the camera position, we defined region of interest as the lower trapezoid area that contains lanes. Since lanes looks straight in the near field, we used HOUGH transformation to find straight lines. All feature points in the region of interest voted for the slopes and intercepts of the lines. Lines that satisfy slope and length requirements were selected and a weighted average method was applied to find the left lane and the right lane. 
+We also fitted lane model with the lane information collected from previous frames. In this case, if the lanes are covered by vehicle ahead or there exists large discrepancy between frames, we can use the lane model to predict lane positions instead of just using HOUGH transformation. Average filtering was implemented to ensure continuity in frames. 
